@@ -43,7 +43,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -96,7 +95,6 @@ fun LoginPage(){
         }
     }
 }
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GetNameLogin(name:MutableState<String>,navController: NavHostController){
     MaterialTheme{
@@ -134,7 +132,6 @@ fun GetNameLogin(name:MutableState<String>,navController: NavHostController){
     }
 
 }
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun GetHeightLogin(name:MutableState<String>,height:MutableState<String>,navController: NavHostController){
 
@@ -177,7 +174,6 @@ fun GetHeightLogin(name:MutableState<String>,height:MutableState<String>,navCont
     }
 
 }
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun GetWeightLogin(name:MutableState<String>,weight:MutableState<String>,navController: NavHostController){
 
@@ -198,7 +194,7 @@ fun GetWeightLogin(name:MutableState<String>,weight:MutableState<String>,navCont
             color = MaterialTheme.colorScheme.background
         ) {
             Column() {
-                Text(text = "반갑습니다! ${name.value}님\n키를 입력하여 주세요.",
+                Text(text = "반갑습니다! ${name.value}님\n몸무게를 입력하여 주세요.",
                     modifier = Modifier
                         .padding(30.dp)
                         .offset(x = fieldOffSet), fontSize = 20.sp , lineHeight = 30.sp)
@@ -218,7 +214,6 @@ fun GetWeightLogin(name:MutableState<String>,weight:MutableState<String>,navCont
     }
 
 }
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun GetGenderLogin(name:MutableState<String>,gender:MutableState<String>,navController: NavHostController){
 
@@ -258,7 +253,6 @@ fun GetGenderLogin(name:MutableState<String>,gender:MutableState<String>,navCont
     }
 
 }
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun GetBirthLogin(name:MutableState<String>,selectedDate:MutableState<String>,navController: NavHostController){
 
@@ -330,7 +324,11 @@ fun GetExLogin(name:MutableState<String>, navController: NavHostController){
         ) {
             Column() {
                 Text(text = "${name.value}님 마지막 단계 입니다.\n알레르기,지병 등 특이 사항을 적어주세요.",
-                    modifier = Modifier.padding(30.dp).offset(x=fieldOffSet), fontSize = 20.sp , lineHeight = 30.sp)
+                    modifier = Modifier
+                        .padding(30.dp)
+                        .offset(x=fieldOffSet),
+                    fontSize = 20.sp ,
+                    lineHeight = 30.sp)
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxHeight(0.55f)
@@ -393,14 +391,12 @@ fun GetExLogin(name:MutableState<String>, navController: NavHostController){
                                                 modifier = Modifier.fillMaxSize(0.5f)
                                             )
                                         }
-
                                     }
                                 }
-
                             }
                         }
                     }
-                    item {
+                    item {//리스트를 추가하는 텍스트필드
                         ElevatedCard(modifier = Modifier
                             .align(CenterHorizontally)
                             .padding(horizontal = 15.dp, vertical = 5.dp)
@@ -434,11 +430,10 @@ fun GetExLogin(name:MutableState<String>, navController: NavHostController){
                 GetNextButtonLogin {
 
                 }
-                LaunchedEffect(list.size) {
+                LaunchedEffect(list.size) {//버튼을 눌렀을때 리스트를 아래로 강제로 내리는 구문//
                     scrollState.animateScrollToItem(list.size - 1)
                 }
             }
-
         }
     }
 }
@@ -447,10 +442,7 @@ data class Ex(
     var isedit:Boolean,
 )
 @Composable
-fun GetNextButtonLogin(modifier: Modifier= Modifier
-    .fillMaxWidth()
-    .fillMaxHeight()
-    .padding(10.dp),onclick :()-> Unit){
+fun GetNextButtonLogin(modifier: Modifier= Modifier,onclick :()-> Unit){
     Button(shape = RoundedCornerShape(20.dp)
         ,modifier = modifier,onClick = onclick){
         Text(text = "다음", fontSize = 30.sp)

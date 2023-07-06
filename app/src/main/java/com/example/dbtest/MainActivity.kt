@@ -107,7 +107,7 @@ class MainActivity : ComponentActivity() {
                 enable2.value = true
                 delay(1000)
                 enable3.value =true
-                delay(900)
+                delay(1200)
                 enable3.value =false
                 enable2.value = false
                 delay(1000)

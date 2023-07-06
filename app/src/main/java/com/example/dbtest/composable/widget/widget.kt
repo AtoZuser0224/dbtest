@@ -2,6 +2,7 @@ package com.example.dbtest.composable.widget
 
 import android.app.DatePickerDialog
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,6 +16,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -28,10 +30,11 @@ import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StringTextFieldLogin(item: MutableState<String>, modifier: Modifier){
+fun StringTextFieldLogin(item: MutableState<String>,label:String, modifier: Modifier){
     OutlinedTextField(
         value = item.value, onValueChange = { item.value = it },
-        shape = RoundedCornerShape(30.dp),
+        shape = RoundedCornerShape(10.dp),
+        label= {Text(text = label)},
         singleLine = true,
         textStyle = TextStyle(fontSize = 30.sp, textAlign = TextAlign.Center),
         modifier = modifier
@@ -60,32 +63,38 @@ fun DatePicker(
         date.monthValue - 1,
         date.dayOfMonth,
     )
-
     OutlinedTextField(
-        value = value,
-        onValueChange = { /* handle value change */ },
+        value = value, onValueChange = {},
+        shape = RoundedCornerShape(10.dp),
+        label= {Text(text = label)},
         enabled = false,
+        singleLine = true,
+        textStyle = TextStyle(fontSize = 30.sp, textAlign = TextAlign.Center),
         modifier = modifier
-            .clickable { dialog.show() }
-            .fillMaxWidth()
-            .padding(20.dp)
-            .height(70.dp),
-        label = { Text(text = label) },
-        shape = RoundedCornerShape(15.dp),
+            .padding(top = 5.dp)
+            .fillMaxWidth(0.9f)
+            .height(80.dp)
+            .clickable { dialog.show() },
         keyboardOptions = keyboardOptions,
         keyboardActions = keyboardActions
     )
+
 }
 
 @Composable
 fun GetNextButtonLogin(modifier: Modifier = Modifier, onclick :()-> Unit){
-    Button(
-        shape = RoundedCornerShape(20.dp),
-        modifier = modifier.fillMaxWidth().fillMaxHeight().padding(7.dp),
-        onClick = onclick
-    ) {
-        Text(text = "다음", fontSize = 30.sp)
+    Box(contentAlignment = Alignment.CenterEnd, modifier = Modifier.fillMaxWidth()) {
+        Button(
+            shape = RoundedCornerShape(5.dp),
+            modifier = modifier
+                .fillMaxHeight()
+                .padding(30.dp),
+            onClick = onclick,
+        ) {
+            Text(text = "다음", fontSize = 20.sp)
+        }
     }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

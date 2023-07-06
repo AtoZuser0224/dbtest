@@ -48,7 +48,9 @@ fun ShowDialogEndLogin(name: MutableState<String>,
                     Text(text = "네")
                 }
                 Button(
-                    onClick = { navController.navigate("Ex"){
+                    onClick = {
+                        showDialog.value = false
+                        navController.navigate("Ex"){
                         popUpTo("End"){
                             inclusive = true
                         }

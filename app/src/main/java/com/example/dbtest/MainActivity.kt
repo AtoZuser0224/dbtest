@@ -35,18 +35,20 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.dbtest.composable.LoginPage
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.dbtest.composable.Login.LoginPage
 import com.example.dbtest.db.HealthPerDay
 import com.example.dbtest.db.ProductRepository
 import com.example.dbtest.db.ProductRoomDatabase
 import com.example.dbtest.ui.theme.DbtestTheme
 import kotlinx.coroutines.delay
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,21 +56,31 @@ class MainActivity : ComponentActivity() {
             val db = MainViewModel(LocalContext.current.applicationContext
                     as Application)
             val bard = ContentViewModel()
+            val dataManager = DataManager(dataStore = dataStore)
             DbtestTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 )   {
-                        Start()
+                    val navController = rememberNavController()
+
+                    NavHost(navController = navController, startDestination = "Start") {
+
+                        composable("Start") {
+                            Start(navController)
+                        }
+                        composable("Login") {
+                            LoginPage(dataManager)
+                        }
+                    }
                     }
                 }
             }
         }
     }
-    @Preview
     @Composable
-    fun Start(){
+    fun Start(navController: NavController){
         MaterialTheme{
             val enable = remember {
                 mutableStateOf(false)
@@ -79,9 +91,7 @@ class MainActivity : ComponentActivity() {
             val enable3 = remember {
                 mutableStateOf(false)
             }
-            val start = remember {
-                mutableStateOf(false)
-            }
+
             val fieldOffSet by animateFloatAsState(targetValue = if(enable.value)800f else 2000f,
                 animationSpec = spring(
                     dampingRatio = Spring.DampingRatioLowBouncy,
@@ -101,7 +111,11 @@ class MainActivity : ComponentActivity() {
                 enable3.value =false
                 enable2.value = false
                 delay(1000)
-                start.value = true
+                navController.navigate("Login"){
+                    popUpTo("Start"){
+                        inclusive = true
+                    }
+                }
             }
 
             Surface(
@@ -110,37 +124,35 @@ class MainActivity : ComponentActivity() {
             ) {
 
                 Column() {
-                    if (start.value) LoginPage() else{
-                        Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                            Image(
-                                painter = painterResource(id = R.drawable.openai),
-                                contentDescription = "openAi",
+                    Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                        Image(
+                            painter = painterResource(id = R.drawable.openai),
+                            contentDescription = "openAi",
+                            modifier = Modifier
+                                .size(120.dp)
+                                .graphicsLayer(
+                                    translationY = fieldOffSet,
+                                    rotationZ = turn
+                                )
+                        )
+                        AnimatedVisibility(
+                            visible = enable3.value,
+                            enter = fadeIn() + expandIn(),
+                            exit = fadeOut() + shrinkOut()
+                        ) {
+                            Text(
+                                text = "CHAT FIT",
+                                fontSize = 40.sp,
+                                fontWeight = FontWeight.ExtraBold,
                                 modifier = Modifier
-                                    .size(120.dp)
+                                    .fillMaxHeight()
+                                    .padding(30.dp)
+                                    .animateContentSize()
+                                    .align(Alignment.CenterVertically)
                                     .graphicsLayer(
                                         translationY = fieldOffSet,
-                                        rotationZ = turn
                                     )
-                            )
-                            AnimatedVisibility(
-                                visible = enable3.value,
-                                enter = fadeIn() + expandIn(),
-                                exit = fadeOut() + shrinkOut()
-                            ) {
-                                Text(
-                                    text = "CHAT FIT",
-                                    fontSize = 40.sp,
-                                    fontWeight = FontWeight.ExtraBold,
-                                    modifier = Modifier
-                                        .fillMaxHeight()
-                                        .padding(30.dp)
-                                        .animateContentSize()
-                                        .align(Alignment.CenterVertically)
-                                        .graphicsLayer(
-                                            translationY = fieldOffSet,
-                                        )
-                                    )
-                                }
+                                )
                             }
                         }
                     }

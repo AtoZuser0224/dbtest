@@ -20,8 +20,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowCircleRight
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -171,7 +172,7 @@ fun GetExLogin(name: MutableState<String>,list:SnapshotStateList<Ex>, navControl
                                         ) {
                                             if (list[index].isedit) {
                                                 Icon(
-                                                    imageVector = Icons.Default.ArrowCircleRight,
+                                                    imageVector = Icons.Outlined.Done,
                                                     contentDescription = "arrow",
                                                     modifier = Modifier.fillMaxSize(0.5f)
                                                 )
@@ -215,7 +216,7 @@ fun GetExLogin(name: MutableState<String>,list:SnapshotStateList<Ex>, navControl
                                         list[0] = Ex("", true)
                                     }, modifier = Modifier.fillMaxSize()) {
                                         Icon(
-                                            imageVector = Icons.Default.ArrowCircleRight,
+                                            imageVector = Icons.Default.Send,
                                             contentDescription = "arrow",
                                             modifier = Modifier.fillMaxSize(0.5f)
                                         )
@@ -232,7 +233,11 @@ fun GetExLogin(name: MutableState<String>,list:SnapshotStateList<Ex>, navControl
                             color = MaterialTheme.colorScheme.primary
                         )
                         GetNextButtonLogin {
-                            navController.navigate("End")
+                            navController.navigate("End"){
+                                popUpTo("Ex"){
+                                    inclusive = true
+                                }
+                            }
                         }
                     }
 

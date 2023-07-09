@@ -44,9 +44,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.dbtest.composable.Login.LoginPage
+import com.example.dbtest.composable.main.Main
+import com.example.dbtest.db.DataManager
 import com.example.dbtest.db.HealthPerDay
 import com.example.dbtest.db.ProductRepository
 import com.example.dbtest.db.ProductRoomDatabase
+import com.example.dbtest.db.dataStore
 import com.example.dbtest.ui.theme.DbtestTheme
 import kotlinx.coroutines.delay
 class MainActivity : ComponentActivity() {
@@ -71,10 +74,14 @@ class MainActivity : ComponentActivity() {
                             Start(navController)
                         }
                         composable("Login") {
-                            LoginPage(dataManager)
+                            LoginPage(dataManager,navController,)
+                        }
+                        composable("Main"){
+                            Main()
                         }
                     }
-                    }
+
+                }
                 }
             }
         }
@@ -159,10 +166,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
-
-
-
 
 
 

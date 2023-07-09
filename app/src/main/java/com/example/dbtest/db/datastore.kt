@@ -1,4 +1,4 @@
-package com.example.dbtest
+package com.example.dbtest.db
 
 import android.content.Context
 import androidx.datastore.core.DataStore

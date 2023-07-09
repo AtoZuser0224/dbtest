@@ -12,12 +12,14 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -30,12 +32,18 @@ import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StringTextFieldLogin(item: MutableState<String>,label:String, modifier: Modifier){
-    OutlinedTextField(
+fun TextFieldLogin(item: MutableState<String>, modifier: Modifier, isString:Boolean){
+    TextField(
         value = item.value, onValueChange = { item.value = it },
         shape = RoundedCornerShape(10.dp),
-        label= {Text(text = label)},
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = Color.Transparent
+        ),
         singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = if(isString) KeyboardType.Text else KeyboardType.Number,
+            imeAction = ImeAction.Done
+        ),
         textStyle = TextStyle(fontSize = 30.sp, textAlign = TextAlign.Center),
         modifier = modifier
     )
@@ -63,21 +71,24 @@ fun DatePicker(
         date.monthValue - 1,
         date.dayOfMonth,
     )
-    OutlinedTextField(
-        value = value, onValueChange = {},
+
+    TextField(
+        value = value, onValueChange = {  },
         shape = RoundedCornerShape(10.dp),
-        label= {Text(text = label)},
-        enabled = false,
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = Color.Transparent
+        ),
         singleLine = true,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
         textStyle = TextStyle(fontSize = 30.sp, textAlign = TextAlign.Center),
+        enabled = false,
         modifier = modifier
-            .padding(top = 5.dp)
             .fillMaxWidth(0.9f)
             .height(80.dp)
-            .clickable { dialog.show() },
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions
+            .clickable { dialog.show() }
     )
+
 
 }
 
@@ -97,21 +108,3 @@ fun GetNextButtonLogin(modifier: Modifier = Modifier, onclick :()-> Unit){
 
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun NumberTextFieldLogin(item: MutableState<String>, modifier: Modifier, label:String){
-    OutlinedTextField(
-        value = item.value, onValueChange = { item.value = it },
-        shape = RoundedCornerShape(30.dp),
-        singleLine = true,
-
-        textStyle = TextStyle(fontSize = 30.sp, textAlign = TextAlign.Center),
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Number,
-            imeAction = ImeAction.Done
-        ),
-
-        label = { Text(text = label) },
-        modifier = modifier
-    )
-}

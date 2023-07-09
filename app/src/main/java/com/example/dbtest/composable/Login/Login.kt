@@ -4,13 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.dbtest.DataManager
+import com.example.dbtest.db.DataManager
 
 @Composable
-fun LoginPage(dataManager: DataManager){
+fun LoginPage(dataManager: DataManager,navControllerMain: NavController){
     val name = remember { mutableStateOf("") }
     val height = remember { mutableStateOf("") }
     val weight = remember { mutableStateOf("") }
@@ -38,7 +39,7 @@ fun LoginPage(dataManager: DataManager){
                 propertyName = "키",
                 nextProperty = "Weight",
                 Field = "Number",
-                property = name,
+                property = height,
                 navController = navController
             )
         }
@@ -73,7 +74,7 @@ fun LoginPage(dataManager: DataManager){
             GetExLogin(name = name,list, navController = navController)
         }
         composable("End"){
-            ShowDialogEndLogin(name,height,weight,gender,birth,dataManager,navController)
+            ShowDialogEndLogin(name,height,weight,gender,birth,dataManager,navControllerMain)
         }
     }
 }

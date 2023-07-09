@@ -32,14 +32,14 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.dbtest.R
 import com.example.dbtest.composable.widget.DatePicker
 import com.example.dbtest.composable.widget.GetNextButtonLogin
-import com.example.dbtest.composable.widget.NumberTextFieldLogin
-import com.example.dbtest.composable.widget.StringTextFieldLogin
+import com.example.dbtest.composable.widget.TextFieldLogin
 
 @Composable
 fun GetLoginSample(propertyName:String, nextProperty:String, Field:String, property: MutableState<String>, navController: NavHostController){
@@ -83,23 +83,28 @@ fun GetLoginSample(propertyName:String, nextProperty:String, Field:String, prope
                     text = "당신의 ${propertyName}를 입력하여 주세요.",
                     modifier = Modifier.padding(5.dp), fontWeight = FontWeight.ExtraLight, fontSize = 18.sp, lineHeight = 30.sp
                 )
+                Text(
+                    text = propertyName,
+                    modifier = Modifier.padding(top = 10.dp, start = 30.dp).fillMaxWidth(), textAlign = TextAlign.Start, fontWeight = FontWeight.ExtraLight, fontSize = 18.sp
+                )
                 if (Field == "String"){
-                    StringTextFieldLogin(
-                        item = property,propertyName ,modifier = Modifier
+                    TextFieldLogin(
+                        item = property ,modifier = Modifier
                             .offset(x = fieldOffSet)
                             .align(Alignment.CenterHorizontally)
-                            .padding(top = 5.dp)
+                            .padding()
                             .fillMaxWidth(0.9f)
-                            .height(80.dp)
+                            .height(70.dp),
+                        isString = true
                     )
                 }else if(Field == "Number"){
-                    NumberTextFieldLogin(
+                    TextFieldLogin(
                         item = property, modifier = Modifier
                             .offset(x = fieldOffSet)
                             .align(Alignment.CenterHorizontally)
-                            .padding(top = 5.dp)
                             .fillMaxWidth(0.9f)
-                            .height(80.dp), label = propertyName
+                            .height(70.dp),
+                        isString = false
                     )
                 }else{
                     DatePicker(
@@ -119,7 +124,7 @@ fun GetLoginSample(propertyName:String, nextProperty:String, Field:String, prope
                     modifier = Modifier.fillMaxWidth().padding(24.dp), lineHeight = 15.sp, fontSize = 12.sp,
                     color = MaterialTheme.colorScheme.primary
                 )
-                Spacer(modifier = Modifier.fillMaxHeight(0.78f))
+                Spacer(modifier = Modifier.fillMaxHeight(0.76f))
                 GetNextButtonLogin {
                     navController.navigate(nextProperty)
                 }

@@ -28,10 +28,7 @@ data class Choice(
     val text: String
 )
 
-interface GptApi {
-    @Headers(
-        "Content-Type: application/json",
-        "Authorization: Bearer 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"
+interface GptApi "
     )
     @POST("/v1/completions")
     fun getCompletion(
